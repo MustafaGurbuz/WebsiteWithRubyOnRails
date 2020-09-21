@@ -1,0 +1,112 @@
+Gemfile içine
+gem 'bootstrap'
+gem 'jquery-rails'
+
+app/assets/stylesheets altýndaki .css dosyalarý .scss yap.
+app/assets/sytlesheets/application.scss
+@import "bootstrap";
+app/assets/javascripts/application.js
+//=require jquery
+//=require bootstrap
+
+Ardýndan terminalde
+cd prj
+bundle install
+
+Sonra tekrar Gemfile içine
+gem 'devise'
+
+Ardýndan tekrar terminale
+bundle install
+rails g devise:install
+rails g devise user
+rails g devise:views
+rake db:migrate
+
+Sonra tekrar Gemfile içine
+
+gem 'paperclip'
+Ardýndan terminale
+bundle install
+rails g paperclip kitap resim
+rake db:migrate
+
+#controller permit listesine yeni field ekle
+.permit(:isim, :sayfa, :resim)
+
+#app/views/kitaps/_form.html.erb  dosyasýna yeni field ekle
+<%= form.file_field :resim%>
+
+--app/models/kitap.rb
+has_attached_file :resim, styles: { medium: "300x300>", thumb: "100x100>" }, 
+default_url: "/images/:style/missing.png"
+ validates_attachment_content_type :resim, content_type: /\Aimage\/.*\z/
+
+--app/views/kitaps/index.html.erb
+<td> <%= image_tag kitap.resim.url(:thumb) if kitap.resim? %> </td>
+
+--app/views/kitap/show.html.erb
+<%= image_tag @kitap.resim.url(:medium) if @kitap.resim? %> 
+
+Kullanýcý Denetimi
+before_action :authenticate_user!, only: [:new]
+
+Controller Üretmek
+
+rails g controller arama index
+	
+app/controller/arama_controller.rb index methodu içine
+      @q=params[:q]
+      #@kitaplar=Kitap.where(isim: @q)
+      @kitaplar=Kitap.where("isim=?",@q) 
+app/views/arama/index.html.erb
+<%=@q%>
+<br>
+<table>
+    <% @kitaplar.each do |kitap| %>
+      <tr>
+        <td><%= kitap.isim %></td>
+        <td><%= kitap.sayfa %></td>
+        <td><%= link_to 'Show', kitap %></td>
+        <td> <%= image_tag kitap.resim.url(:thumb) if kitap.resim? %> </td>
+        <td><%= link_to 'Edit', edit_kitap_path(kitap) %></td>
+        <td><%= link_to 'Destroy', kitap, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+</table>
+
+1-Many Ýliþkisi
+
+#Terminal komutlarý 
+ rails g  migration AddUserToKitaps user:references
+ rake db:migrate
+
+#kitap tablosuna user alaný ekledik ve bunu referans yaptýk
+has_many :kitaps
+	#User modeline eklenecek
+belongs_to :user
+	#Kitap modeline eklenecek
+
+--Aþaðýdaki satýr app/controllers/kitap_controller.rb içindeki create metodunun içine yazýlacak
+@kitap.user=current_user
+
+--App/views/kitaps/index.html.erb sayfasýnda kitabý oluþturan kullanýcý bilgisini görüntüleme 
+<td><%= kitap.user.email %></td>
+
+#app/controller/kitap_controller.rb 
+before_action :authenticate_user!
+
+#Bu satýr login olmadan kitap oluþturmayý/silmeyi engeller!
+#Ancak her kullanýcý silme/update iþleminde kendi oluþturduðu kitaplar için yapabilmeli
+
+#app/controller/kitap_controller.rb 
+
+before_action :kontrol, only: [:edit, :destroy]
+
+# edit/destroy yapmadan önce postun sahibi olan kullanýcý, þu an login olan kullanýcý mý?, aþaðýdaki metot private ten sonra eklenecek
+ def kontrol
+      unless @kitap.user==current_user
+        redirect_to kitaps_path, notice:"Yetki problemi" unless current_user==@kitap.user
+      end
+    end
+

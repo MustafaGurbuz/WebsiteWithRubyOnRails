@@ -1,0 +1,42 @@
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+  <a class="navbar-brand" href="#" style="color:red">Seçenekler</a>
+  <button class="navbar-toggler" style="white" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+            <% if user_signed_in? %>					
+       </br><li style="font-size:20px"><%= link_to('Hesabým', edit_user_registration_path) %></li>	</br>				
+        <li style="font-size:20px"><%= link_to "Çýkýþ", destroy_user_session_path, :method => :delete %></li>	</br>		
+        <% else %>					
+        </br><li style="font-size:20px"><%= link_to('Giriþ', new_user_session_path) %></li>	 </br>		
+        <li style="font-size:20px"><%= link_to('Kayýt', new_user_registration_path) %></li> </br>				
+        <% end %>           
+        <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" style="color:red">Hakkýmýzda</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" style="color:red" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Alt Seçenekler
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Haberler</a>
+          <a class="dropdown-item" href="#">Sporlar</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Filmler</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#" style="color:red">Ýletiþim</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Araþtýr" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Araþtýr</button>
+    </form>
+  </div>
+</nav>

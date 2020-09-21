@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+
+<html>
+  
+
+<head>
+
+<style type="text/css">
+
+.abc{
+
+font-size: 30px;
+
+}
+
+.button {
+
+background-color: #4CAF50; /* Green */
+
+border: none;
+  color: white;
+
+padding: 16px 32px;
+
+text-align: center;
+
+text-decoration: none;
+
+display: inline-block;
+
+font-size: 16px;
+
+margin: 4px 2px;
+
+-webkit-transition-duration: 0.4s; /* Safari */
+
+transition-duration: 0.4s;
+
+cursor: pointer;
+}
+
+.button3 {
+
+background-color: white;
+color: black;
+border: 2px solid #f44336;
+
+}
+
+.button3:hover {
+  background-color: #f44336;
+  color: white;
+}
+
+</style>
+
+<title>Prj</title>
+
+<%= csrf_meta_tags %>
+
+<%= csp_meta_tag %>
+
+
+ <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+<%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+</head>
+
+<body class="bdy" style="background-color: #2aafa5;">
+
+
+<%= render 'shared/navbar' %>
+
+ 
+
+<div class="row">
+
+ <div class="col-sm-3" style="background-color:lavender;">
+<div class="abc"> </br>&emsp; &emsp;
+<button class="button button3">
+<%= link_to 'Kitaplar', kitaps_path %></button><br>
+
+&emsp; &emsp;<button class="button button3">
+<%= link_to 'Yazarlar', yazars_path %></button></br></div> </div>
+
+<div class="col-sm-9" style="background-color:lavenderblush;">
+<%= yield %></div>
+
+</div>
+</div>
+
+</body>
+
+
+</html>

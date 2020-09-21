@@ -1,0 +1,23 @@
+OLUÞTURMAK ÝÇÝN
+
+rails new prj
+cd prj
+rails g scaffold yazar isim
+rails g scaffold kitap isim sayfa:integer
+rake db:migrate
+rails s
+
+KONTROL ETMEK VE TERMÝNALDEN DEÐER GÝRMEK ÝÇÝN
+
+cd prj
+rails c
+k=Kitap.create
+k.isim="Python"
+k.sayfa:25
+hata mesajý görmek istiyorsan
+k.errors.messages
+
+b=Yazar.create
+b.isim="Turgut"
+hata mesajý görmek istiyorsan
+k.errors.messages

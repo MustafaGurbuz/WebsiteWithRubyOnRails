@@ -1,0 +1,13 @@
+class Kitap < ApplicationRecord
+
+    validates_presence_of:isim
+
+    validates_numericality_of:sayfa
+
+    validates:sayfa, :inclusion=>{:in=>10..400,:message=>",aralık dışında"}
+
+    validates:isim, :length=>{:in=>3..20,:message=>",İsim 3 ile 20 karakter arasında olmalıdır"}
+
+    has_attached_file :resim, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: "/images/:style/missing.png"
+ validates_attachment_content_type :resim, content_type: /\Aimage\/.*\z/
+end

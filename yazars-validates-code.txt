@@ -1,0 +1,4 @@
+class Yazar < ApplicationRecord
+    validates_presence_of:isim
+    validates:isim, :length=>{:in=>3..20,:message=>",İsim 3 ile 20 karakter arasında olmalıdır"}
+end
